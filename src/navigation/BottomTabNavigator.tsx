@@ -1,37 +1,38 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Image, ImageSourcePropType} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import AnalyticsScreen from '../screens/AnalyticsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import {RootState} from '../store';
 import {useSelector} from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Tab = createBottomTabNavigator();
 
-const getTabBarIcon = (
-  routeName: string,
-  focused: boolean,
-  color: string,
-  size: number,
-) => {
-  let iconName = '';
+const getTabBarIcon = (routeName: string, focused: boolean) => {
+  let iconSource: ImageSourcePropType;
 
   switch (routeName) {
     case 'Home':
-      iconName = focused ? 'home' : 'home';
+      iconSource = focused
+        ? require('../assets/ExerciseFill.png')
+        : require('../assets/ExerciseOutline.png');
       break;
-    case 'Settings':
-      iconName = focused ? 'settings' : 'settings';
+    case 'Analytics':
+      iconSource = focused
+        ? require('../assets/AnalyticsFill.png')
+        : require('../assets/AnalyticsOutline.png');
       break;
     case 'Profile':
-      iconName = focused ? 'person' : 'person-outline';
+      iconSource = focused
+        ? require('../assets/ProfileFill.png')
+        : require('../assets/ProfileOutline.png');
       break;
     default:
-      iconName = 'help-outline';
+      iconSource = require('../assets/default.png');
   }
 
-  return <Icon name={iconName} size={size} color={color} />;
+  return <Image source={iconSource} style={{width: 24, height: 24}} />;
 };
 
 const BottomTabNavigator = () => {
@@ -40,8 +41,7 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) =>
-          getTabBarIcon(route.name, focused, color, size),
+        tabBarIcon: ({focused}) => getTabBarIcon(route.name, focused),
         tabBarActiveTintColor: theme.mode === 'dark' ? '#ffffff' : '#000000',
         tabBarInactiveTintColor: theme.mode === 'dark' ? '#aaaaaa' : '#555555',
         tabBarStyle: {
@@ -56,8 +56,8 @@ const BottomTabNavigator = () => {
         },
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Analytics" component={AnalyticsScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 };

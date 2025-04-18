@@ -3,7 +3,6 @@ import React from 'react';
 import {Provider as ReduxProvider} from 'react-redux';
 import {store} from './src/store';
 import {NavigationContainer} from '@react-navigation/native';
-// import AppNavigator from './src/navigation/AppNavigator';
 import {createStackNavigator} from '@react-navigation/stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StatusBar} from 'react-native';
